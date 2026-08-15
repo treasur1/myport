@@ -1,88 +1,79 @@
-export interface Course {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  priceNgn: number;
-  priceUsd: number;
-  rating: number;
-  reviewCount: number;
-  studentCount: number;
-  badge?: string;
-  image: string;
-  selarUrl: string;
-  curriculum: {
-    moduleTitle: string;
-    lessons: string[];
-  }[];
-  keyTakeaways: string[];
-  targetAudience: string;
-}
+export type Currency = 'NGN' | 'USD';
 
-export interface CaseStudy {
-  id: string;
-  title: string;
-  clientName: string;
-  clientRole: string;
-  clientIndustry: string;
-  category: 'E-commerce' | 'Info-Products' | 'Lead Generation' | 'Brand Building';
-  thumbnail: string;
-  heroMetric: string;
-  heroMetricLabel: string;
-  secondaryMetrics: {
-    label: string;
-    value: string;
-  }[];
-  summary: string;
-  challenge: string;
-  solution: string;
-  results: string[];
-  funnelSteps: {
-    step: string;
-    description: string;
-    conversionRate: string;
-  }[];
-  timeline: string;
-  toolsUsed: string[];
-}
+export type GenderCategory = 'all' | 'mens' | 'womens' | 'kids' | 'unisex';
 
-export interface Testimonial {
+export type KitCategory = 'All' | 'Club' | 'National Team' | 'Retro' | 'Special Edition';
+
+export type KitType = 'Home' | 'Away' | 'Third' | 'Special' | 'Retro' | 'Goalkeeper';
+
+export type JerseyVersion = 'Fan Version' | 'Player Issue' | 'Retro Match' | 'Kids Full Set';
+
+export interface JerseyProduct {
   id: string;
   name: string;
-  role: string;
-  company: string;
-  avatar: string;
-  content: string;
+  clubOrCountry: string;
+  league: string; // e.g. "Premier League", "La Liga", "Serie A", "International", "Retro Legends"
+  season: string; // e.g. "2024/25", "1998/99"
+  gender: 'mens' | 'womens' | 'kids' | 'unisex';
+  category: 'Club' | 'National Team' | 'Retro' | 'Special Edition';
+  kitType: KitType;
+  primaryColor: string;
+  priceNgn: number;
+  priceUsd: number;
+  originalPriceNgn?: number;
+  originalPriceUsd?: number;
+  badge?: 'Bestseller' | 'New Drop' | 'Limited Stock' | 'Player Issue' | 'Retro Gold' | 'Trending';
+  image: string;
+  alternateImages?: string[];
+  description: string;
+  features: string[];
+  sizesAvailable: string[];
+  defaultPlayerPrint?: {
+    name: string;
+    number: string;
+  };
+  popularPrints?: Array<{ name: string; number: string }>;
   rating: number;
-  verifiedSelarBuyer?: boolean;
-  type: 'Course Student' | 'Consulting Client' | 'Brand Founder';
-  metricsHighlight?: string;
+  reviewsCount: number;
+  inStock: boolean;
+  isPopular?: boolean;
+  isNewArrival?: boolean;
 }
 
-export interface Service {
-  id: string;
-  iconName: string;
-  title: string;
-  shortDesc: string;
-  fullDesc: string;
-  deliverables: string[];
-  idealFor: string;
-  popular?: boolean;
+export interface CartCustomization {
+  version: JerseyVersion;
+  size: string;
+  hasCustomPrint: boolean;
+  customName: string;
+  customNumber: string;
+  patch: string; // e.g. "UCL Starball + 15", "Premier League Gold Champions", "None"
 }
 
-export interface RoiCalculatorState {
-  monthlyAdSpend: number;
-  costPerClick: number;
-  landingPageConvRate: number; // percentage
-  productPrice: number;
+export interface CartItem {
+  cartItemId: string; // Unique hash/id for exact combination
+  product: JerseyProduct;
+  customization: CartCustomization;
+  quantity: number;
+  priceNgnPerUnit: number;
+  priceUsdPerUnit: number;
+  totalNgn: number;
+  totalUsd: number;
 }
 
-export interface ContactFormData {
+export interface CustomerOrderDetails {
   fullName: string;
-  email: string;
   phone: string;
-  inquiryType: 'Consulting / Done-for-You' | 'Course Inquiry' | 'Selar Store Question' | 'Speaking / Workshop';
-  monthlyBudget: string;
-  message: string;
-  preferredDate?: string;
+  deliveryCity: string;
+  deliveryAddress: string;
+  additionalNotes?: string;
+  paymentPreference: 'Bank Transfer' | 'WhatsApp Direct Inquiry' | 'Cash on Delivery (Lagos only)';
+}
+
+export interface FilterOptions {
+  search: string;
+  gender: GenderCategory;
+  category: KitCategory;
+  league: string;
+  sortBy: 'featured' | 'price-low' | 'price-high' | 'rating' | 'newest';
+  onlyInStock: boolean;
 }

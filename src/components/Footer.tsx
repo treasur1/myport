@@ -1,62 +1,166 @@
 import React from 'react';
-import { ArrowUpRight, Heart, Sparkles } from 'lucide-react';
-import { SelarLogo } from './SelarLogo';
+import { Shield, MessageCircle, ArrowUpRight, Phone, Mail, MapPin } from 'lucide-react';
+import { Currency, GenderCategory } from '../types';
+import { WHATSAPP_NUMBER, WHATSAPP_FORMATTED } from '../data/jerseys';
 
 interface FooterProps {
-  onNavigate: (sectionId: string) => void;
+  currency: Currency;
+  onToggleCurrency: (currency: Currency) => void;
+  onSelectCategory: (gender: GenderCategory) => void;
+  onOpenSizeGuide: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC<FooterProps> = ({
+  currency,
+  onToggleCurrency,
+  onSelectCategory,
+  onOpenSizeGuide,
+}) => {
   return (
-    <footer className="bg-[#050505] border-t border-zinc-900 py-12 text-zinc-400 text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <footer className="bg-zinc-950 border-t border-zinc-900 text-zinc-400 text-xs pt-16 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-zinc-900">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 text-left">
           
-          {/* Brand Info */}
-          <div className="text-center md:text-left space-y-1">
-            <button
-              onClick={() => onNavigate('hero')}
-              className="text-lg font-black text-white tracking-tight hover:text-orange-400 transition-colors"
-            >
-              TREASURE EWELIKE
-            </button>
-            <p className="text-zinc-400">
-              Growth Consultant • Meta & Google Ads Specialist • Course Creator
+          {/* Col 1: Brand Info */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-xl bg-lime-400 p-[1px] flex items-center justify-center">
+                <div className="w-full h-full bg-zinc-950 rounded-[10px] flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-lime-400 fill-lime-400/20" />
+                </div>
+              </div>
+              <span className="font-athletic text-3xl font-black tracking-wider text-white">
+                FLUXX <span className="text-lime-400">FC</span>
+              </span>
+            </div>
+
+            <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
+              Your #1 destination for premium quality matchday and fan football jerseys. Men's kits, women's fits, kids full sets, and iconic vintage retros with custom player name & number heat-pressed vinyl printing.
             </p>
+
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] text-zinc-500">Active Currency:</span>
+              <button
+                onClick={() => onToggleCurrency(currency === 'NGN' ? 'USD' : 'NGN')}
+                className="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-lime-400 font-bold text-xs hover:border-lime-500 transition-colors"
+              >
+                {currency === 'NGN' ? '₦ Nigerian Naira (NGN)' : '$ US Dollar (USD)'}
+              </button>
+            </div>
           </div>
 
-          {/* Selar Badge */}
-          <div className="flex items-center gap-3">
-            <a
-              href="https://selar.co/m/TreasureEwelike"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-orange-500/40 text-zinc-200 transition-all group"
-            >
-              <SelarLogo size={18} showText={true} />
-              <ArrowUpRight className="w-3.5 h-3.5 text-orange-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+          {/* Col 2: Shop by Gender */}
+          <div className="space-y-3">
+            <h4 className="font-athletic text-base font-bold text-white uppercase tracking-wider">
+              SHOP JERSEYS
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <button
+                  onClick={() => {
+                    onSelectCategory('mens');
+                    window.scrollTo({ top: 400, behavior: 'smooth' });
+                  }}
+                  className="hover:text-lime-400 transition-colors"
+                >
+                  Men's Club & National Kits
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    onSelectCategory('womens');
+                    window.scrollTo({ top: 400, behavior: 'smooth' });
+                  }}
+                  className="hover:text-lime-400 transition-colors"
+                >
+                  Women's Tailored Kits
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    onSelectCategory('kids');
+                    window.scrollTo({ top: 400, behavior: 'smooth' });
+                  }}
+                  className="hover:text-lime-400 transition-colors"
+                >
+                  Kids Full Sets (Top + Shorts)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    onSelectCategory('unisex');
+                    window.scrollTo({ top: 400, behavior: 'smooth' });
+                  }}
+                  className="hover:text-lime-400 transition-colors"
+                >
+                  Unisex & Retro Classics
+                </button>
+              </li>
+            </ul>
           </div>
 
-          {/* Quick Nav Links */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-zinc-400">
-            <button onClick={() => onNavigate('about')} className="hover:text-white transition-colors">About</button>
-            <button onClick={() => onNavigate('courses')} className="hover:text-orange-400 transition-colors">Courses on Selar</button>
-            <button onClick={() => onNavigate('case-studies')} className="hover:text-white transition-colors">Case Studies</button>
-            <button onClick={() => onNavigate('services')} className="hover:text-white transition-colors">Services</button>
-            <button onClick={() => onNavigate('roi-calculator')} className="hover:text-white transition-colors">ROI Calculator</button>
-            <button onClick={() => onNavigate('contact')} className="hover:text-white transition-colors">Contact</button>
+          {/* Col 3: Customer Care & Guides */}
+          <div className="space-y-3">
+            <h4 className="font-athletic text-base font-bold text-white uppercase tracking-wider">
+              HELP & GUIDES
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <button
+                  onClick={onOpenSizeGuide}
+                  className="hover:text-lime-400 transition-colors underline"
+                >
+                  Size Chart & Measurements
+                </button>
+              </li>
+              <li>
+                <span className="text-zinc-500">Custom Nameset Vinyl Printing</span>
+              </li>
+              <li>
+                <span className="text-zinc-500">Sleeve Badges & UCL Patches</span>
+              </li>
+              <li>
+                <span className="text-zinc-500">Care & Washing Instructions</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Direct WhatsApp Order */}
+          <div className="space-y-3">
+            <h4 className="font-athletic text-base font-bold text-white uppercase tracking-wider">
+              ORDER & INQUIRIES
+            </h4>
+            <div className="space-y-2.5">
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-all"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>WhatsApp: {WHATSAPP_FORMATTED}</span>
+              </a>
+
+              <p className="text-[11px] text-zinc-500 leading-relaxed">
+                Response Time: &lt; 15 mins for stock checks, video proofs, and dispatch info.
+              </p>
+            </div>
           </div>
 
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
-          <p>© {new Date().getFullYear()} Treasure Ewelike. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            <span>Crafted for high conversions with</span>
-            <span className="text-orange-400 font-bold">Selar.co</span>
-          </p>
+        {/* Bottom copyright */}
+        <div className="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
+          <p>© {new Date().getFullYear()} FLUXX FC. All rights reserved. Premium Football Apparel.</p>
+          <div className="flex items-center gap-4">
+            <span>Fast Dispatch Worldwide</span>
+            <span>•</span>
+            <span className="text-zinc-400">WhatsApp: 2349015010957</span>
+          </div>
         </div>
 
       </div>
